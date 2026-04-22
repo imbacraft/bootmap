@@ -1,0 +1,41 @@
+bootmap.dev
+Copyright 2026 Dimitrios Bouzoukas
+
+This product includes content derived from Spring Boot reference documentation
+(https://github.com/spring-projects/spring-boot), copyright VMware, Inc. /
+Broadcom Inc., licensed under Apache License 2.0.
+
+This product references Java platform documentation. "Java" is a trademark of
+Oracle America, Inc. References to Java and its APIs are nominative fair use;
+bootmap.dev is not affiliated with, endorsed by, or sponsored by Oracle.
+
+"Spring" and "Spring Boot" are trademarks of Broadcom Inc. (formerly VMware).
+References to Spring and Spring Boot are nominative fair use; bootmap.dev is
+not affiliated with, endorsed by, or sponsored by Broadcom.
+
+---
+
+Apache License 2.0 required notices for derivative works:
+
+A copy of the Apache License, Version 2.0 is available at:
+https://www.apache.org/licenses/LICENSE-2.0
+
+Modifications in this project:
+
+1. Content from Spring Boot reference documentation has been reorganized,
+   rewritten for clarity in the author's voice, supplemented with production
+   code examples drawn from the author's own projects (SolarDrake and
+   1firm.app), and cross-linked with concepts defined elsewhere in this
+   repository.
+
+2. Attribution is provided on each derived page via the `officialSource`
+   frontmatter field and rendered footer link pointing to the canonical
+   upstream documentation.
+
+3. No unmodified reproduction of substantial portions of Spring Boot
+   documentation is distributed as part of this product.
+
+---
+
+Code in this repository (excluding derived content described above) is licensed
+under the MIT License. See LICENSE for full terms.
