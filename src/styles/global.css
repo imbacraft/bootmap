@@ -1,72 +1,355 @@
 @import "tailwindcss";
 
+/* ----- Splash template: tighten vertical spacing ----- */
+/* Only touches padding, not text-align or flex — keeps Starlight's alignment intact. */
+
+.hero {
+	padding-top: 1.5rem;
+	padding-bottom: 1.25rem;
+}
+
+.hero + * {
+	margin-top: 0.25rem;
+}
+
 /* ----- bootmap.dev: roadmap tree ----- */
 
+/* Cluster accent colors (dark theme) */
+:root {
+	--bm-cluster-1: #6366f1; /* indigo */
+	--bm-cluster-2: #0ea5e9; /* sky */
+	--bm-cluster-3: #10b981; /* emerald */
+	--bm-cluster-4: #f59e0b; /* amber */
+	--bm-cluster-5: #ef4444; /* red */
+	--bm-cluster-6: #a855f7; /* violet */
+	--bm-cluster-7: #ec4899; /* pink */
+}
+
 .bm-roadmap {
+	margin-top: 0.5rem;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 1.5rem;
-	margin-top: 2.5rem;
-	width: 100%;
+	align-items: flex-start;
 }
 
-.bm-roadmap__grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-	gap: 1rem;
+/* ----- Toolbar (map selector row) ----- */
+
+.bm-roadmap__toolbar {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	width: 100%;
+	max-width: 720px;
+	margin: 0 0 0.5rem;
 }
 
-.bm-cluster {
+/* ----- Map selector dropdown ----- */
+
+.bm-map-selector {
+	position: relative;
+	display: inline-block;
+}
+
+.bm-map-selector__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.875rem;
 	background: var(--sl-color-bg-nav);
 	border: 1px solid var(--sl-color-hairline);
-	border-radius: 12px;
-	padding: 1.25rem 1.25rem 1rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	transition: border-color 120ms ease, box-shadow 120ms ease;
-}
-
-.bm-cluster:hover {
-	border-color: var(--sl-color-accent);
-}
-
-.bm-cluster__header {
-	display: flex;
-	flex-direction: column;
-	gap: 0.25rem;
-}
-
-.bm-cluster__title {
-	font-size: 1.15rem;
-	font-weight: 600;
+	border-radius: 8px;
 	color: var(--sl-color-white);
-	margin: 0;
-	letter-spacing: -0.01em;
+	font-family: inherit;
+	font-size: 0.875rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease;
 }
 
-.bm-cluster__caption {
-	font-size: 0.85rem;
+.bm-map-selector__button:hover,
+.bm-map-selector__button[aria-expanded='true'] {
+	border-color: var(--sl-color-accent);
+	background: var(--sl-color-accent-low);
+}
+
+.bm-map-selector__label {
 	color: var(--sl-color-gray-3);
-	margin: 0;
-	line-height: 1.4;
+	font-weight: 400;
 }
 
-.bm-cluster__nodes {
+.bm-map-selector__value {
+	color: var(--sl-color-white);
+}
+
+.bm-map-selector__chevron {
+	transition: transform 150ms ease;
+	color: var(--sl-color-gray-2);
+}
+
+.bm-map-selector__chevron.is-open {
+	transform: rotate(180deg);
+}
+
+.bm-map-selector__menu {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	min-width: 180px;
+	background: var(--sl-color-bg-nav);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 8px;
+	padding: 0.25rem;
+	margin: 0;
+	list-style: none;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+	z-index: 20;
+}
+
+.bm-map-selector__item {
 	display: flex;
-	flex-direction: column;
-	gap: 0.375rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	background: transparent;
+	border: none;
+	border-radius: 6px;
+	color: var(--sl-color-white);
+	font-family: inherit;
+	font-size: 0.875rem;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color 100ms ease;
+}
+
+.bm-map-selector__item:hover:not(:disabled) {
+	background: var(--sl-color-accent-low);
+}
+
+.bm-map-selector__item.is-current {
+	color: var(--sl-color-accent);
+	font-weight: 600;
+}
+
+.bm-map-selector__item.is-disabled,
+.bm-map-selector__item:disabled {
+	color: var(--sl-color-gray-4);
+	cursor: not-allowed;
+}
+
+.bm-map-selector__item-badge {
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-weight: 600;
+	padding: 0.125rem 0.375rem;
+	border-radius: 4px;
+	background: var(--sl-color-gray-5);
+	color: var(--sl-color-gray-2);
+}
+
+/* ----- SVG flowchart (desktop) ----- */
+
+.bm-roadmap__svg-wrapper {
+	width: 100%;
+	max-width: 720px;
+	position: relative;
+	padding: 0;
+}
+
+.bm-roadmap__svg {
+	display: block;
+	margin: 0;
+	width: 100%;
+	height: auto;
+	color: var(--sl-color-gray-3);
+	font-family: var(--sl-font);
+}
+
+.bm-svg-root rect {
+	fill: var(--sl-color-accent);
+	stroke: rgba(255, 255, 255, 0.1);
+	stroke-width: 1;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+.bm-svg-root text {
+	fill: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: -0.005em;
+}
+
+.bm-svg-spine {
+	stroke: var(--sl-color-gray-5);
+	stroke-width: 2;
+	stroke-dasharray: 4 4;
+}
+
+.bm-svg-root-connector {
+	stroke: var(--sl-color-gray-4);
+	stroke-width: 2;
+}
+
+.bm-svg-progression-line {
+	stroke: var(--sl-color-gray-4);
+	stroke-width: 2;
+}
+
+.bm-svg-cluster-box {
+	stroke: rgba(255, 255, 255, 0.1);
+	stroke-width: 1;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+.bm-svg-cluster-label {
+	fill: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: -0.005em;
+}
+
+.bm-svg-connector {
+	stroke-width: 2;
+	transition: stroke-width 150ms ease, opacity 150ms ease;
+}
+
+.bm-svg-connector--available {
+	opacity: 0.9;
+}
+
+.bm-svg-connector--soon {
+	stroke: var(--sl-color-gray-5);
+	stroke-dasharray: 4 3;
+	opacity: 0.5;
+}
+
+.bm-svg-node {
+	cursor: pointer;
+	transition: transform 150ms ease;
+}
+
+.bm-svg-node rect {
+	stroke-width: 1.5;
+	transition: fill 150ms ease, stroke 150ms ease;
+}
+
+.bm-svg-node--available rect {
+	fill: var(--sl-color-bg-nav);
+	stroke: var(--cluster-color, var(--sl-color-accent));
+}
+
+.bm-svg-node--available:hover rect,
+.bm-svg-node--available:focus-within rect {
+	fill: var(--cluster-color, var(--sl-color-accent));
+}
+
+.bm-svg-node--available:hover .bm-svg-node-label,
+.bm-svg-node--available:focus-within .bm-svg-node-label {
+	fill: #ffffff;
+	font-weight: 600;
+}
+
+.bm-svg-node--soon {
+	cursor: default;
+}
+
+.bm-svg-node--soon rect {
+	fill: transparent;
+	stroke: var(--sl-color-gray-5);
+	stroke-dasharray: 3 2;
+}
+
+.bm-svg-node-label {
+	fill: var(--sl-color-white);
+	font-size: 13px;
+	font-weight: 500;
+	pointer-events: none;
+}
+
+.bm-svg-node--soon .bm-svg-node-label {
+	fill: var(--sl-color-gray-3);
+}
+
+.bm-svg-node-badge {
+	fill: var(--sl-color-gray-4);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	pointer-events: none;
+}
+
+/* DOM-positioned tooltip — overlays the SVG, not clipped by viewBox */
+.bm-roadmap__tooltip {
+	position: absolute;
+	z-index: 10;
+	max-width: 260px;
+	min-width: 180px;
+	background: var(--sl-color-black);
+	color: var(--sl-color-white);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 6px;
+	padding: 0.5rem 0.75rem;
+	font-size: 0.8rem;
+	line-height: 1.45;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+	pointer-events: none;
+	transform: translateY(-25%);
+}
+
+/* Anchor wrappers around SVG nodes shouldn't add underlines */
+.bm-roadmap__svg a {
+	text-decoration: none;
+}
+
+/* ----- Fallback list (mobile / a11y) ----- */
+
+.bm-roadmap__fallback {
+	display: none;
+	margin-top: 1rem;
+}
+
+.bm-roadmap__fallback-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
 }
 
-.bm-node__wrapper {
-	position: relative;
+.bm-fallback-cluster {
+	background: var(--sl-color-bg-nav);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 10px;
+	padding: 1rem 1.25rem;
 }
 
-.bm-node {
+.bm-fallback-cluster__title {
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin: 0 0 0.25rem;
+	color: var(--sl-color-white);
+}
+
+.bm-fallback-cluster__caption {
+	font-size: 0.85rem;
+	color: var(--sl-color-gray-3);
+	margin: 0 0 0.75rem;
+}
+
+.bm-fallback-nodes {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+}
+
+.bm-fallback-node {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -77,44 +360,25 @@
 	background: var(--sl-color-bg);
 	font-size: 0.9rem;
 	text-decoration: none;
-	transition: border-color 120ms ease, background-color 120ms ease, transform 120ms ease;
-	cursor: pointer;
-	width: 100%;
-	box-sizing: border-box;
 }
 
-.bm-node--available {
+.bm-fallback-node--available {
 	color: var(--sl-color-white);
-	border-color: var(--sl-color-accent-low);
 	background: var(--sl-color-accent-low);
+	border-color: var(--sl-color-accent-low);
 }
 
-.bm-node--available:hover,
-.bm-node--available:focus-visible {
-	border-color: var(--sl-color-accent);
-	background: var(--sl-color-accent);
-	color: var(--sl-color-black);
-	transform: translateX(2px);
-}
-
-.bm-node--soon {
+.bm-fallback-node--soon {
 	color: var(--sl-color-gray-3);
-	cursor: default;
 	opacity: 0.75;
 }
 
-.bm-node--soon:hover,
-.bm-node--soon:focus-visible {
-	border-color: var(--sl-color-gray-4);
-	opacity: 1;
-}
-
-.bm-node__label {
+.bm-fallback-node__label {
 	flex: 1;
 	font-weight: 500;
 }
 
-.bm-node__badge {
+.bm-fallback-node__badge {
 	font-size: 0.65rem;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -125,41 +389,14 @@
 	color: var(--sl-color-gray-2);
 }
 
-.bm-node__tooltip {
-	position: absolute;
-	z-index: 10;
-	left: 50%;
-	bottom: calc(100% + 6px);
-	transform: translateX(-50%);
-	background: var(--sl-color-black);
-	color: var(--sl-color-white);
-	border: 1px solid var(--sl-color-hairline);
-	border-radius: 6px;
-	padding: 0.5rem 0.75rem;
-	font-size: 0.8rem;
-	line-height: 1.4;
-	width: max-content;
-	max-width: 260px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-	pointer-events: none;
-}
-
-.bm-node__tooltip::after {
-	content: '';
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	transform: translateX(-50%);
-	border: 5px solid transparent;
-	border-top-color: var(--sl-color-hairline);
-}
+/* ----- Legend (shared) ----- */
 
 .bm-roadmap__legend {
 	display: flex;
 	gap: 0.75rem;
 	justify-content: center;
 	align-items: center;
-	margin: 0;
+	margin: 1.5rem 0 0;
 	padding: 0.75rem 0;
 	font-size: 0.8rem;
 	color: var(--sl-color-gray-3);
@@ -187,8 +424,13 @@
 	color: var(--sl-color-gray-3);
 }
 
-@media (max-width: 50rem) {
-	.bm-roadmap__grid {
-		grid-template-columns: 1fr;
+/* ----- Breakpoint: switch from SVG tree to fallback list below 768px ----- */
+
+@media (max-width: 48rem) {
+	.bm-roadmap__svg-wrapper {
+		display: none;
+	}
+	.bm-roadmap__fallback {
+		display: block;
 	}
 }
