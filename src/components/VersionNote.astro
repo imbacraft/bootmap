@@ -1,0 +1,13 @@
+---
+import { Aside } from '@astrojs/starlight/components';
+
+interface Props {
+	range: string;
+}
+
+const { range } = Astro.props;
+---
+
+<Aside type="note" title={`Version note · ${range}`}>
+	<slot />
+</Aside>

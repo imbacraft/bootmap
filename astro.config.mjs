@@ -15,6 +15,10 @@ export default defineConfig({
       description:
           'The Java ecosystem reference, reorganized and deeply explained. Production patterns, version-aware, cross-linked. Starting with Spring Boot.',
       customCss: ['./src/styles/global.css'],
+      expressiveCode: {
+          // Standard VSCode Dark+ / Light+ themes
+          themes: ['dark-plus', 'light-plus'],
+      },
       social: [
           {
               icon: 'github',

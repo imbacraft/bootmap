@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* ----- Brand accent: emerald green -----
+   Overrides Starlight's three accent tokens per theme.
+   Palette source: Tailwind emerald (matches roadmap cluster-3). */
+
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #022c22;  /* emerald-950 — backgrounds, hover tints */
+	--sl-color-accent: #10b981;      /* emerald-500 — links, focus rings */
+	--sl-color-accent-high: #6ee7b7; /* emerald-300 — emphasized text */
+}
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: #ecfdf5;  /* emerald-50 */
+	--sl-color-accent: #059669;      /* emerald-600 — contrast-safe on white */
+	--sl-color-accent-high: #064e3b; /* emerald-900 */
+}
+
 /* ----- Splash template: tighten vertical spacing ----- */
 /* Only touches padding, not text-align or flex — keeps Starlight's alignment intact. */
 
@@ -14,8 +30,11 @@
 
 /* ----- bootmap.dev: roadmap tree ----- */
 
-/* Cluster accent colors (dark theme) */
+/* Cluster accent colors (dark theme) + content-column width override.
+   --sl-content-width default is 45rem; widening pushes the right-hand
+   "On this page" rail further right and gives the article more room. */
 :root {
+	--sl-content-width: 52rem;
 	--bm-cluster-1: #6366f1; /* indigo */
 	--bm-cluster-2: #0ea5e9; /* sky */
 	--bm-cluster-3: #10b981; /* emerald */
